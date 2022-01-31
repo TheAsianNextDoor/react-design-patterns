@@ -11,6 +11,9 @@ import Checkbox from '@material-ui/core/Checkbox';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Button } from '@material-ui/core';
 
+// service
+import { ToDoListService } from './ToDoList.Service.js';
+
 // data store
 import { useToDoStore } from './toDoList.store.js';
 
@@ -27,19 +30,23 @@ const useStyles = makeStyles((theme) => ({
 
 export const ToDoList = () => {
   const classes = useStyles();
-  const store = useToDoStore();
+  const ToDoStore = useToDoStore(ToDoListService);
 
   const {
     list,
     addItemToList,
     removeItemFromList,
     setCheckedStatus,
-  } = useToDoListModel(store);
+    triggerReload,
+    saveList,
+  } = useToDoListModel(ToDoStore, ToDoListService);
 
   return (
     <>
-      <Button onClick={() => addItemToList({ id: list.length, isChecked: false })}> Add Item </Button>
-      
+      <Button onClick={addItemToList}> Add Item </Button>
+      <Button onClick={triggerReload}>Trigger reload</Button>
+      <Button onClick={() => saveList(list)}>Save list</Button>
+
       <List className={classes.root}>
             {list.map((item, index) => {      
               return (

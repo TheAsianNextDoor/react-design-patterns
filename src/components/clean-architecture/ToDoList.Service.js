@@ -1,7 +1,6 @@
 import { ApolloClient, gql, HttpLink, InMemoryCache } from '@apollo/client';
 import fetch from 'cross-fetch';
 
-
 const link = new HttpLink({
     fetch: fetch,
     uri: 'http://localhost:4000/graphql',
@@ -30,6 +29,7 @@ export const listMutation = gql`
     }
 `;
 
-export const loadList = async () => client.query({query: listQuery, fetchPolicy: 'network-only' });
-export const updateList = (newList) => client.mutate({mutation: listMutation, variables: { newList }});
-
+export const ToDoListService = {
+    loadList: async () => client.query({query: listQuery, fetchPolicy: 'network-only' }),
+    updateList: (newList) => client.mutate({mutation: listMutation, variables: { newList }}),
+}

@@ -2,7 +2,8 @@ import React from 'react';
 
 // Uncomment either ToDoList for other example
 // import { ToDoList } from './components/clean-architecture/ToDoList.jsx';
-import { ToDoList } from './components/mvvm/ToDoList.jsx';
+// import { ToDoList } from './components/mvvm/ToDoList.jsx';
+import { ToDoList } from './components/mvv/ToDoList.jsx';
 import {
   ApolloClient,
   InMemoryCache,
@@ -10,8 +11,6 @@ import {
   HttpLink,
 } from '@apollo/client';
 import fetch from 'cross-fetch';
-
-process.env.NODE_ENV = 'development';
 
 const link = new HttpLink({
   fetch: fetch,

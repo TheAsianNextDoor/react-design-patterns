@@ -38,7 +38,7 @@ export const ToDoList = () => {
     <>
       <Button onClick={addItemToList}>Add Item</Button>
       <Button onClick={triggerReload}>Trigger reload</Button>
-      <Button onClick={saveList}>Save list</Button> 
+      <Button onClick={saveList}>Save list</Button>      
 
       <List className={classes.root}>
         {list.map((item, index) => {      

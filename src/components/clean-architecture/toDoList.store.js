@@ -1,7 +1,5 @@
 import create from 'zustand';
-import { useState } from 'react';
-
-const defaultList = [{ id: 0, isChecked: false }, {id: 1, isChecked: true}];
+import { useEffect, useState } from 'react';
 
 // // using 3rd party state management
 // export const useToDoStore = create((set) => ({
@@ -10,11 +8,18 @@ const defaultList = [{ id: 0, isChecked: false }, {id: 1, isChecked: true}];
 // }))
 
 // using React state management
-export const useToDoStore = () => {
-    const [list, updateList] = useState(defaultList);
+export const useToDoStore = (service) => {
+    const [list, setList] = useState([]);
+
+    useEffect(() => {
+        (async () => {
+            const { data } = await service.loadList();
+            setList(data?.list);
+        })();
+    }, []);
 
     return {
         list,
-        updateList,
+        setList,
     }
 }

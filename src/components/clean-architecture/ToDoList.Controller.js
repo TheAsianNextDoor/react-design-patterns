@@ -1,11 +1,20 @@
 
-import { useCallback } from 'react';
-import { addItemToListUseCase, removeItemFromListUseCase, setItemCheckedStatusUseCase } from './ToDoList.UseCases.js';
+import { useCallback, useMemo } from 'react';
+import { 
+    addItemToListUseCase,
+    removeItemFromListUseCase, 
+    setItemCheckedStatusUseCase, 
+    stripOutTypeNameUseCase, 
+    triggerReloadUseCase,
+} from './ToDoList.UseCases.js';
 
-export const useToDoListModel = (store) => ({
-    list: store.list,
+export const useToDoListModel = (store, service) => ({
+    list: useMemo(
+        () => stripOutTypeNameUseCase(store),
+        [store.list],
+    ),
     addItemToList: useCallback(
-        (itemToAdd) => addItemToListUseCase(store, itemToAdd),
+        () => addItemToListUseCase(store),
         [store.list],
     ),
     removeItemFromList: useCallback(
@@ -16,4 +25,8 @@ export const useToDoListModel = (store) => ({
         (index, isChecked) => setItemCheckedStatusUseCase(store, index, isChecked),
         [store.list],
     ),
+    triggerReload: () => triggerReloadUseCase(store, service),
+    saveList: async (list) => {
+        service.updateList(list)
+    },
 });
