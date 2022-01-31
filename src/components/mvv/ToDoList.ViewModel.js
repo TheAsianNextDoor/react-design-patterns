@@ -25,12 +25,12 @@ export const listMutation = gql`
 // // business logic separated
 // export const useToDoListViewModel = () => {
 //     const [list, setList] = useState([]);
-//     const { data = [], refetch } = useQuery(listQuery, {fetchPolicy: 'network-only'});
+//     const { data = [], refetch, loading } = useQuery(listQuery, {fetchPolicy: 'network-only'});
 //     const [ saveListMutation ] = useMutation(listMutation);
 
 //     useEffect(() => {
 //         setList(stripOutTypeName(data?.list || []));
-//     }, [data])
+//     }, [loading])
 
 //     const addItemToList = () => setList(addItemToListLogic(list, newListItem(list.length))); 
 //     const removeItemFromList = (itemIndex) => setList(removeItemFromListLogic(list, itemIndex));
@@ -56,19 +56,21 @@ export const listMutation = gql`
 // business logic coupled
 export const useToDoListViewModel = () => {
     const [list, setList] = useState([]);
-    const { data = [], refetch } = useQuery(listQuery, {fetchPolicy: 'network-only'});
+    const { data = [], refetch, loading } = useQuery(listQuery, {fetchPolicy: 'network-only'});
     const [ saveListMutation ] = useMutation(listMutation);
 
     useEffect(() => {
         setList(stripOutTypeName(data?.list || []));
-    }, [])
+    }, [loading])
 
-    const addItemToList = () => setList([...list, newListItem(list.length)]); 
+    const addItemToList = () => {
+        setList([...list, newListItem(list.length)]); 
+    };
     const removeItemFromList = (itemIndex) => setList(list.filter((item, index) => index !== itemIndex));
     const setCheckedStatus = (itemIndex, isChecked) => setList(list.map((item, index) =>  index === itemIndex ? {...item, isChecked }: item));
 
     const triggerReload = async () => {
-        const { data } = await refetch();
+        const { data } =  await refetch();
         setList(stripOutTypeName(data.list));
     };
     const saveList = async () => saveListMutation({variables: { newList: list}});
