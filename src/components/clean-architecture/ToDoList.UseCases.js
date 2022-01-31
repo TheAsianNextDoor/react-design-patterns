@@ -1,4 +1,4 @@
-import { addItemToList, removeItemFromList, setItemCheckedStatus } from './ToDoList.domain';
+import { addItemToList, removeItemFromList, setItemCheckedStatus } from './ToDoList.domain.js';
 
 export const addItemToListUseCase = (store, item) => {
     const { list } = store;

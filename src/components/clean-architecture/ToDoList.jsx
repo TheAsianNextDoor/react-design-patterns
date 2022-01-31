@@ -1,21 +1,32 @@
-import * as React from 'react';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Checkbox from '@mui/material/Checkbox';
-import DeleteIcon from '@mui/icons-material/Delete';
+import React from 'react';
+
+import { makeStyles } from '@material-ui/core/styles';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
+import Checkbox from '@material-ui/core/Checkbox';
+
+import DeleteIcon from '@material-ui/icons/Delete';
+import { Button } from '@material-ui/core';
 
 // data store
-import { useToDoStore } from './toDoList.store';
+import { useToDoStore } from './toDoList.store.js';
 
 // business logic 
-import { useToDoListModel } from './ToDoList.Controller';
-import { Button } from '@mui/material';
+import { useToDoListModel } from './ToDoList.Controller.js';
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper,
+  },
+}));
 
 export const ToDoList = () => {
+  const classes = useStyles();
   const store = useToDoStore();
 
   const {
@@ -28,26 +39,25 @@ export const ToDoList = () => {
   return (
     <>
       <Button onClick={() => addItemToList({ id: list.length, isChecked: false })}> Add Item </Button>
-
-      <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-        {list.map((item, index) => {
-          
-          return (
-            <ListItem key={item.id}>
-              <ListItemButton>
-                <ListItemIcon>
-                  <Checkbox
-                    onClick={() => setCheckedStatus(index, !item.isChecked)}
-                    checked={item.isChecked}
-                  />
-                </ListItemIcon>
-                <ListItemText primary={`Line item ${item.id + 1}`} />
-              </ListItemButton>
-              <DeleteIcon onClick={() => removeItemFromList(index)}/>
-            </ListItem>
-          );
-        })}
-      </List>
+      
+      <List className={classes.root}>
+            {list.map((item, index) => {      
+              return (
+                <ListItem key={index}>
+                  <ListItemIcon>
+                    <Checkbox
+                      onClick={() => setCheckedStatus(index, !item.isChecked)}
+                      checked={item.isChecked}
+                    />
+                  </ListItemIcon>
+                  <ListItemText primary={`Line item ${item.id + 1}`} />
+                  <ListItemSecondaryAction>
+                    <DeleteIcon onClick={() => removeItemFromList(index)}/>
+                  </ListItemSecondaryAction>
+                </ListItem>
+              );
+            })}
+          </List>
     </>
   );
 }

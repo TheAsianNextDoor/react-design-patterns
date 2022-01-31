@@ -1,6 +1,6 @@
 
 import { useCallback } from 'react';
-import { addItemToListUseCase, removeItemFromListUseCase, setItemCheckedStatusUseCase } from './ToDoList.UseCases';
+import { addItemToListUseCase, removeItemFromListUseCase, setItemCheckedStatusUseCase } from './ToDoList.UseCases.js';
 
 export const useToDoListModel = (store) => ({
     list: store.list,

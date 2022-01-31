@@ -23,38 +23,38 @@ const listMutation = gql`
     }
 `;
 
-// // business logic separated
-// export const useToDoListViewModel = () => {
-//     const [list, setList] = useState([]);
-//     const { data = [], refetch } = useQuery(listQuery, {fetchPolicy: 'network-only'});
-//     const [ saveList ] = useMutation(listMutation);
+// business logic separated
+export const useToDoListViewModel = () => {
+    const [list, setList] = useState([]);
+    // const { data = [], refetch } = useQuery(listQuery, {fetchPolicy: 'network-only'});
+    // const [ saveList ] = useMutation(listMutation);
 
-//     useEffect(() => {
-//         setList(stripOutTypeName(data?.list || []));
-//     }, [data])
+    // useEffect(() => {
+    //     setList(stripOutTypeName(data?.list || []));
+    // }, [data])
 
-//     const addItem = () => setList(addItemToListLogic(list, newListItem(list.length))); 
-//     const removeItem = (itemIndex) => setList(removeItemFromListLogic(list, itemIndex));
-//     const setCheckedStatus = (itemIndex, isChecked) => setList(setItemCheckedStatusLogic(list, itemIndex, isChecked));
+    const addItemToList = () => setList(addItemToListLogic(list, newListItem(list.length))); 
+    const removeItemFromList = (itemIndex) => setList(removeItemFromListLogic(list, itemIndex));
+    const setCheckedStatus = (itemIndex, isChecked) => setList(setItemCheckedStatusLogic(list, itemIndex, isChecked));
 
-//     const triggerReload = async () => {
-//         const { data } = await refetch();
-//         setList(stripOutTypeName(data.list));
-//     };
+    const triggerReload = async () => {
+        // const { data } = await refetch();
+        // setList(stripOutTypeName(data.list));
+    };
 
-//     const memoizedAddItem = useCallback((item) => addItem(item), [list]);
-//     const memoizedRemoveItem = useCallback((itemIndex) => removeItem(itemIndex), [list]);
-//     const memoizedSetCheckedStatus = useCallback((itemIndex, isChecked) => setCheckedStatus(itemIndex, isChecked), [list]);
+    const memoizedAddItem = useCallback((item) => addItemToList(item), [list]);
+    const memoizedRemoveItem = useCallback((itemIndex) => removeItemFromList(itemIndex), [list]);
+    const memoizedSetCheckedStatus = useCallback((itemIndex, isChecked) => setCheckedStatus(itemIndex, isChecked), [list]);
 
-//     return {
-//         list,
-//         addItem: memoizedAddItem,
-//         removeItem: memoizedRemoveItem,
-//         setCheckedStatus: memoizedSetCheckedStatus,
-//         triggerReload,
-//         saveList,
-//     }
-// }
+    return {
+        list,
+        addItemToList: memoizedAddItem,
+        removeItemFromList: memoizedRemoveItem,
+        setCheckedStatus: memoizedSetCheckedStatus,
+        triggerReload,
+        // saveList,
+    }
+}
 
 
 // // business logic coupled
@@ -67,8 +67,8 @@ const listMutation = gql`
 //         setList(stripOutTypeName(data?.list || []));
 //     }, [data])
 
-//     const addItem = () => setList([...list, newListItem(list.length)]); 
-//     const removeItem = (itemIndex) => setList(list.filter((item, index) => index !== itemIndex));
+//     const addItemToList = () => setList([...list, newListItem(list.length)]); 
+//     const removeItemFromList = (itemIndex) => setList(list.filter((item, index) => index !== itemIndex));
 //     const setCheckedStatus = (itemIndex, isChecked) => setList(list.map((item, index) =>  index === itemIndex ? {...item, isChecked }: item));
 
 //     const triggerReload = async () => {
@@ -78,8 +78,8 @@ const listMutation = gql`
 
 //     return {
 //         list,
-//         addItem,
-//         removeItem,
+//         addItemToList,
+//         removeItemFromList,
 //         setCheckedStatus,
 //         triggerReload,
 //         saveList,
@@ -87,31 +87,31 @@ const listMutation = gql`
 // }
 
 
-// model usage
-export const useToDoListViewModel = () => {
-    const [list, setList] = useState([]);
-    const [reload, setReload] = useState(false);
+// // model usage
+// export const useToDoListViewModel = () => {
+//     const [list, setList] = useState([]);
+//     const [reload, setReload] = useState(false);
 
-    useEffect(() => {
-        (async () => {
-            const { data } = await loadList();
-            setList(stripOutTypeName(data?.list));
-        })();
-    }, [reload])
+//     useEffect(() => {
+//         (async () => {
+//             const { data } = await loadList();
+//             setList(stripOutTypeName(data?.list));
+//         })();
+//     }, [reload])
 
-    const addItem = () => setList(addItemToListLogic(list, newListItem(list.length))); 
-    const removeItem = (itemIndex) => setList(removeItemFromListLogic(list, itemIndex));
-    const setCheckedStatus = (itemIndex, isChecked) => setList(setItemCheckedStatusLogic(list, itemIndex, isChecked));
+//     const addItemToList = () => setList(addItemToListLogic(list, newListItem(list.length))); 
+//     const removeItemFromList = (itemIndex) => setList(removeItemFromListLogic(list, itemIndex));
+//     const setCheckedStatus = (itemIndex, isChecked) => setList(setItemCheckedStatusLogic(list, itemIndex, isChecked));
 
-    const triggerReload = () => setReload((prev) => !prev);
-    const saveList = () => updateList(list);
+//     const triggerReload = () => setReload((prev) => !prev);
+//     const saveList = () => updateList(list);
 
-    return {
-        list,
-        addItem,
-        removeItem,
-        setCheckedStatus,
-        triggerReload,
-        saveList,
-    }
-}
+//     return {
+//         list,
+//         addItemToList,
+//         removeItemFromList,
+//         setCheckedStatus,
+//         triggerReload,
+//         saveList,
+//     }
+// }
