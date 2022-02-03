@@ -1,9 +1,9 @@
 import React from 'react';
 
-// Uncomment either ToDoList for other example
-// import { ToDoList } from './components/clean-architecture/ToDoList.jsx';
-// import { ToDoList } from './components/mvvm/ToDoList.jsx';
-import { ToDoList } from './components/mvv/ToDoList.jsx';
+import { CleanToDoList } from './components/clean-architecture/CleanToDoList.jsx';
+import { MVVMToDoList } from './components/mvvm/MVVMToDoList.jsx';
+import { MVVToDoList } from './components/mvv/MVVToDoList.jsx';
+import { HelperToDoList } from './components/helper-functions/HelperToDoList.jsx';
 import {
   ApolloClient,
   InMemoryCache,
@@ -26,11 +26,29 @@ const client = new ApolloClient({
 
 function App() {
   return (
-    <ApolloProvider client={client}>
+    <>
       <div>
-        <ToDoList/>
+        <h2>Clean Architecture</h2>
+        <CleanToDoList/>
       </div>
-    </ApolloProvider>
+
+      <div>
+        <h2>MVVM</h2>
+        <MVVMToDoList/>
+      </div>
+
+      <ApolloProvider client={client}>
+        <div>
+          <h2>MVV</h2>
+          <MVVToDoList/>
+        </div>
+
+        <div>
+          <h2>Helper Functions</h2>
+          <HelperToDoList/>
+        </div>
+      </ApolloProvider>
+    </>
   );
 }
 

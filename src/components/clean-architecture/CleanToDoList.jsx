@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const ToDoList = () => {
+export const CleanToDoList = () => {
   const classes = useStyles();
   const ToDoStore = useToDoStore(ToDoListService);
 
