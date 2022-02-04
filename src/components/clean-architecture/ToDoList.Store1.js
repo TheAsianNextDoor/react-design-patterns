@@ -13,6 +13,8 @@ type IToDoStore {
 
  */
 
+// fix casing
+
 // using 3rd party state management
 export const useToDoStore = create((set) => ({
   list: [],
