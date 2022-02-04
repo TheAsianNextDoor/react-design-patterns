@@ -5,12 +5,6 @@ import {
   stripOutTypeName,
 } from './ToDoList.Domain.js';
 
-export const stripOutTypeNameUseCase = (store) => {
-  const { list } = store;
-
-  return stripOutTypeName(list);
-};
-
 export const addItemToListUseCase = (store) => {
   const { list } = store;
   const newList = addItemToList(list);
@@ -36,4 +30,10 @@ export const triggerReloadUseCase = async (store, service) => {
   const { data } = await service.loadList();
 
   store.setList(data.list);
+};
+
+export const stripOutTypeNameUseCase = (store) => {
+  const { list } = store;
+
+  return stripOutTypeName(list);
 };
