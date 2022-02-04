@@ -31,5 +31,12 @@ export const listMutation = gql`
 `;
 
 export const loadList = async () => client.query({query: listQuery, fetchPolicy: 'network-only' });
-export const updateList = (newList) => client.mutate({mutation: listMutation, variables: { newList }});
+export const updateList = async (newList) => {
 
+    // example of shared logic that all View Models would adhere to
+    if (!newList.length) {
+        return 'Unable to update. No List';
+    }
+
+    client.mutate({mutation: listMutation, variables: { newList }});
+};

@@ -27,6 +27,7 @@ export const MVVMToDoList = () => {
   const classes = useStyles();
   const {
     list,
+    serverError,
     addItemToList,
     removeItemFromList,
     setCheckedStatus,
@@ -36,6 +37,7 @@ export const MVVMToDoList = () => {
 
   return (
     <>
+      <div>{serverError}</div>
       <Button onClick={addItemToList}>Add Item</Button>
       <Button onClick={triggerReload}>Trigger reload</Button>
       <Button onClick={saveList}>Save list</Button> 
