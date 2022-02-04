@@ -1,25 +1,37 @@
 import create from 'zustand';
 import { useEffect, useState } from 'react';
+import { ToDoListService } from './ToDoList.Service.js';
 
-// // using 3rd party state management
-// export const useToDoStore = create((set) => ({
-//     list: defaultList,
-//     updateList: (newList) => set({list: newList}),
-// }))
 
-// using React state management
-export const useToDoStore = (service) => {
-    const [list, setList] = useState([]);
+// example of Interface
+/**
+ 
+type IToDoStore {
+    list: number[]
+    setList: (newList: number[]) => void
+ }
 
-    useEffect(() => {
-        (async () => {
-            const { data } = await service.loadList();
-            setList(data?.list);
-        })();
-    }, []);
+ */
 
-    return {
-        list,
-        setList,
-    }
-}
+// using 3rd party state management
+export const useToDoStore = create((set) => ({
+    list: [],
+    setList: (newList) => set({list: newList}),
+}))
+
+// // using React state management
+// export const useToDoStore = (service) => {
+//     const [list, setList] = useState([]);
+
+//     useEffect(() => {
+//         (async () => {
+//             const { data } = await service.loadList();
+//             setList(data?.list);
+//         })();
+//     }, []);
+
+//     return {
+//         list,
+//         setList,
+//     }
+// }

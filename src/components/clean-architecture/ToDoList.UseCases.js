@@ -1,4 +1,4 @@
-import { addItemToList, removeItemFromList, setItemCheckedStatus, stripOutTypeName } from './ToDoList.domain.js';
+import { addItemToList, removeItemFromList, setItemCheckedStatus, stripOutTypeName } from './ToDoList.Domain.js';
 
 export const stripOutTypeNameUseCase = (store) => {
     const { list } = store;

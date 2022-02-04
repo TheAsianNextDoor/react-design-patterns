@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -30,7 +30,15 @@ const useStyles = makeStyles((theme) => ({
 
 export const CleanToDoList = () => {
   const classes = useStyles();
-  const ToDoStore = useToDoStore(ToDoListService);
+
+  const ToDoStore = useToDoStore();
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await ToDoListService.loadList();
+      ToDoStore.setList(data?.list);
+    })();
+  },[]) 
 
   const {
     list,
@@ -48,7 +56,7 @@ export const CleanToDoList = () => {
       <Button onClick={() => saveList(list)}>Save list</Button>
 
       <List className={classes.root}>
-            {list.map((item, index) => {      
+            {list?.map((item, index) => {      
               return (
                 <ListItem key={index}>
                   <ListItemIcon>
