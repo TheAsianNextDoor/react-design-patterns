@@ -15,7 +15,7 @@ import { Button } from '@material-ui/core';
 import { ToDoListService } from './ToDoList.Service.js';
 
 // data store
-import { useToDoStore } from './ToDoList.Store1.js';
+import { useToDoStore } from './ToDoList.Store.js';
 
 // business logic
 import { useToDoListModel } from './ToDoList.Controller.js';

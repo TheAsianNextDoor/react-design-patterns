@@ -3,7 +3,7 @@ import {
   removeItemFromList,
   setItemCheckedStatus,
   stripOutTypeName,
-} from './ToDoList.Domain1.js';
+} from './ToDoList.Domain.js';
 
 export const stripOutTypeNameUseCase = (store) => {
   const { list } = store;
