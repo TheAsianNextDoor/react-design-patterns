@@ -1,34 +1,36 @@
-import { addItemToList, removeItemFromList, setItemCheckedStatus, stripOutTypeName } from './ToDoList.Domain.js';
+import {
+  addItemToList, removeItemFromList, setItemCheckedStatus, stripOutTypeName,
+} from './ToDoList.Domain.js';
 
 export const stripOutTypeNameUseCase = (store) => {
-    const { list } = store;
+  const { list } = store;
 
-    return stripOutTypeName(list);
+  return stripOutTypeName(list);
 };
 
 export const addItemToListUseCase = (store) => {
-    const { list } = store;
-    const newList = addItemToList(list);
+  const { list } = store;
+  const newList = addItemToList(list);
 
-    store.setList(newList);
+  store.setList(newList);
 };
 
 export const removeItemFromListUseCase = (store, item) => {
-    const { list } = store;
-    const newList = removeItemFromList(list, item);
+  const { list } = store;
+  const newList = removeItemFromList(list, item);
 
-    store.setList(newList);
+  store.setList(newList);
 };
 
 export const setItemCheckedStatusUseCase = (store, index, item) => {
-    const { list } = store;
-    const newCheckedList = setItemCheckedStatus(list, index, item);
+  const { list } = store;
+  const newCheckedList = setItemCheckedStatus(list, index, item);
 
-    store.setList(newCheckedList);
+  store.setList(newCheckedList);
 };
 
 export const triggerReloadUseCase = async (store, service) => {
-    const { data } = await service.loadList();;
+  const { data } = await service.loadList();
 
-    store.setList(data.list);
+  store.setList(data.list);
 };

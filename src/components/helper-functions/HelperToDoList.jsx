@@ -12,14 +12,14 @@ import Checkbox from '@material-ui/core/Checkbox';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Button } from '@material-ui/core';
 
-import { 
+import {
   addItemToListLogic,
   removeItemFromListLogic,
   setItemCheckedStatusLogic,
   stripOutTypeName,
   listMutation,
-  listQuery 
-} from "./ToDoList.helpers.js";
+  listQuery,
+} from './ToDoList.helpers.js';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,51 +30,48 @@ const useStyles = makeStyles((theme) => ({
 }));
 const newListItem = (index) => ({ id: index, isChecked: false });
 
-
-export const HelperToDoList = () => {
+export function HelperToDoList() {
   const classes = useStyles();
 
   const [list, setList] = useState([]);
-  const { data = [], refetch, loading } = useQuery(listQuery, {fetchPolicy: 'network-only'});
-  const [ saveListMutation ] = useMutation(listMutation);
+  const { data = [], refetch, loading } = useQuery(listQuery, { fetchPolicy: 'network-only' });
+  const [saveListMutation] = useMutation(listMutation);
 
   useEffect(() => {
-      setList(stripOutTypeName(data?.list || []));
-  }, [loading])
+    setList(stripOutTypeName(data?.list || []));
+  }, [loading]);
 
-  const addItemToList = () => setList(addItemToListLogic(list, newListItem(list.length))); 
+  const addItemToList = () => setList(addItemToListLogic(list, newListItem(list.length)));
   const removeItemFromList = (itemIndex) => setList(removeItemFromListLogic(list, itemIndex));
   const setCheckedStatus = (itemIndex, isChecked) => setList(setItemCheckedStatusLogic(list, itemIndex, isChecked));
 
   const triggerReload = async () => {
-      const { data } = await refetch();
-      setList(stripOutTypeName(data.list));
+    const { data: fetchedData } = await refetch();
+    setList(stripOutTypeName(fetchedData.list));
   };
-  const saveList = async () => saveListMutation({variables: { newList: list}});
+  const saveList = async () => saveListMutation({ variables: { newList: list } });
 
   return (
     <>
       <Button onClick={addItemToList}>Add Item</Button>
       <Button onClick={triggerReload}>Trigger reload</Button>
-      <Button onClick={saveList}>Save list</Button>      
+      <Button onClick={saveList}>Save list</Button>
 
       <List className={classes.root}>
-        {list.map((item, index) => {      
-          return (
-            <ListItem key={index}>
-              <ListItemIcon>
-                <Checkbox
-                  onClick={() => setCheckedStatus(index, !item.isChecked)}
-                  checked={item.isChecked}
-                />
-              </ListItemIcon>
-              <ListItemText primary={`Line item ${item.id + 1}`} />
-              <ListItemSecondaryAction>
-                <DeleteIcon onClick={() => removeItemFromList(index)}/>
-              </ListItemSecondaryAction>
-            </ListItem>
-          );
-        })}
+        {list.map((item, index) => (
+          <ListItem key={index}>
+            <ListItemIcon>
+              <Checkbox
+                onClick={() => setCheckedStatus(index, !item.isChecked)}
+                checked={item.isChecked}
+              />
+            </ListItemIcon>
+            <ListItemText primary={`Line item ${item.id + 1}`} />
+            <ListItemSecondaryAction>
+              <DeleteIcon onClick={() => removeItemFromList(index)} />
+            </ListItemSecondaryAction>
+          </ListItem>
+        ))}
       </List>
     </>
   );

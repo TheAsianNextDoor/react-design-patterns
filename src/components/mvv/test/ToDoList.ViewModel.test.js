@@ -1,13 +1,14 @@
+/* eslint-disable react/jsx-filename-extension */
 /**
  * @jest-environment jsdom
  */
 
-import { useToDoListViewModel, listQuery } from '../../mvv/ToDoList.ViewModel.js';
 import assert from 'assert';
 import { renderHook, act } from '@testing-library/react-hooks';
 import { cleanup } from '@testing-library/react';
 import { MockedProvider } from '@apollo/client/testing';
 import React from 'react';
+import { useToDoListViewModel, listQuery } from '../ToDoList.ViewModel.js';
 
 const toDoListEmptyMock = {
   request: {
@@ -15,9 +16,9 @@ const toDoListEmptyMock = {
   },
   result: {
     data: {
-      list: []
-    }
-  }
+      list: [],
+    },
+  },
 };
 
 const toDoListPopulatedMock = {
@@ -28,9 +29,9 @@ const toDoListPopulatedMock = {
     data: {
       list: [
         {
-            id: 0,
-            isChecked: false
-        }
+          id: 0,
+          isChecked: false,
+        },
       ],
     },
   }),
@@ -48,9 +49,8 @@ const toDoListPopulatedMock = {
 
 afterEach(cleanup);
 
-
 const getHookWrapper = (mocks = []) => {
-  const wrapper = ({children}) => (
+  const wrapper = ({ children }) => (
     <MockedProvider mocks={mocks}>
       {children}
     </MockedProvider>
@@ -60,19 +60,19 @@ const getHookWrapper = (mocks = []) => {
 };
 
 it('addItemToList', () => {
-    const { result } = getHookWrapper([toDoListEmptyMock]);
-    act(() => {
-      result.current.addItemToList();
-    });
+  const { result } = getHookWrapper([toDoListEmptyMock]);
+  act(() => {
+    result.current.addItemToList();
+  });
 
-    const expected = [
-      {
-          id: 0,
-          isChecked: false
-      }
-    ];
+  const expected = [
+    {
+      id: 0,
+      isChecked: false,
+    },
+  ];
 
-    assert.deepEqual(result.current.list, expected);
+  assert.deepEqual(result.current.list, expected);
 });
 
 it('removeItemFromList', async () => {
@@ -86,7 +86,7 @@ it('removeItemFromList', async () => {
     result.current.removeItemFromList(0);
   });
 
-  assert.deepEqual(result.current.list, [])
+  assert.deepEqual(result.current.list, []);
 });
 
 it('setCheckedStatus', async () => {
@@ -98,9 +98,8 @@ it('setCheckedStatus', async () => {
     result.current.setCheckedStatus(0, true);
   });
 
-  assert.deepEqual(result.current.list, [{id: 0, isChecked: true}])
+  assert.deepEqual(result.current.list, [{ id: 0, isChecked: true }]);
 });
-
 
 it('triggerReload', async () => {
   const { result, waitForNextUpdate, rerender } = getHookWrapper([toDoListPopulatedMock]);
@@ -113,22 +112,22 @@ it('triggerReload', async () => {
 
   act(() => {
     result.current.setCheckedStatus(0, true);
-  })
+  });
 
   const tempList = [
-    {id: 0, isChecked: true},
-    {id: 1, isChecked: false},
-  ]
+    { id: 0, isChecked: true },
+    { id: 1, isChecked: false },
+  ];
 
   rerender();
 
-  assert.deepEqual(result.current.list, tempList)
+  assert.deepEqual(result.current.list, tempList);
 
   await act(async () => {
-     result.current.triggerReload();
+    result.current.triggerReload();
   });
 
   rerender();
 
-  assert.deepEqual(result.current.list, [{id: 0, isChecked: false}])
+  assert.deepEqual(result.current.list, [{ id: 0, isChecked: false }]);
 });

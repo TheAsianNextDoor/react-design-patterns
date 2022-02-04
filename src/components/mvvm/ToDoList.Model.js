@@ -1,16 +1,17 @@
-import { ApolloClient, gql, HttpLink, InMemoryCache } from '@apollo/client';
+import {
+  ApolloClient, gql, HttpLink, InMemoryCache,
+} from '@apollo/client';
 import fetch from 'cross-fetch';
 
-
 const link = new HttpLink({
-    fetch: fetch,
-    uri: 'http://localhost:4000/graphql',
-  })
+  fetch,
+  uri: 'http://localhost:4000/graphql',
+});
 
 const client = new ApolloClient({
-    cache: new InMemoryCache(),
-    link,
-  });
+  cache: new InMemoryCache(),
+  link,
+});
 
 export const listQuery = gql`
     query getList {
@@ -30,13 +31,12 @@ export const listMutation = gql`
     }
 `;
 
-export const loadList = async () => client.query({query: listQuery, fetchPolicy: 'network-only' });
+export const loadList = async () => client.query({ query: listQuery, fetchPolicy: 'network-only' });
 export const updateList = async (newList) => {
+  // example of shared logic that all View Models would adhere to
+  if (!newList.length) {
+    return 'Unable to update. No List';
+  }
 
-    // example of shared logic that all View Models would adhere to
-    if (!newList.length) {
-        return 'Unable to update. No List';
-    }
-
-    client.mutate({mutation: listMutation, variables: { newList }});
+  return client.mutate({ mutation: listMutation, variables: { newList } });
 };

@@ -10,9 +10,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Button } from '@material-ui/core';
 
-
-// business logic 
-import { useToDoListViewModel } from './ToDoList.ViewModel';
+// business logic
+import { useToDoListViewModel } from './ToDoList.ViewModel.js';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,8 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
-export const MVVToDoList = () => {
+export function MVVToDoList() {
   const classes = useStyles();
   const {
     list,
@@ -38,25 +36,23 @@ export const MVVToDoList = () => {
     <>
       <Button onClick={addItemToList}>Add Item</Button>
       <Button onClick={triggerReload}>Trigger reload</Button>
-      <Button onClick={saveList}>Save list</Button>      
+      <Button onClick={saveList}>Save list</Button>
 
       <List className={classes.root}>
-        {list.map((item, index) => {      
-          return (
-            <ListItem key={index}>
-              <ListItemIcon>
-                <Checkbox
-                  onClick={() => setCheckedStatus(index, !item.isChecked)}
-                  checked={item.isChecked}
-                />
-              </ListItemIcon>
-              <ListItemText primary={`Line item ${item.id + 1}`} />
-              <ListItemSecondaryAction>
-                <DeleteIcon onClick={() => removeItemFromList(index)}/>
-              </ListItemSecondaryAction>
-            </ListItem>
-          );
-        })}
+        {list.map((item, index) => (
+          <ListItem key={index}>
+            <ListItemIcon>
+              <Checkbox
+                onClick={() => setCheckedStatus(index, !item.isChecked)}
+                checked={item.isChecked}
+              />
+            </ListItemIcon>
+            <ListItemText primary={`Line item ${item.id + 1}`} />
+            <ListItemSecondaryAction>
+              <DeleteIcon onClick={() => removeItemFromList(index)} />
+            </ListItemSecondaryAction>
+          </ListItem>
+        ))}
       </List>
     </>
   );

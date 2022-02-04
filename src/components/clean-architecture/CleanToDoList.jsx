@@ -17,7 +17,7 @@ import { ToDoListService } from './ToDoList.Service.js';
 // data store
 import { useToDoStore } from './toDoList.store.js';
 
-// business logic 
+// business logic
 import { useToDoListModel } from './ToDoList.Controller.js';
 
 const useStyles = makeStyles((theme) => ({
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const CleanToDoList = () => {
+export function CleanToDoList() {
   const classes = useStyles();
 
   const ToDoStore = useToDoStore();
@@ -38,7 +38,7 @@ export const CleanToDoList = () => {
       const { data } = await ToDoListService.loadList();
       ToDoStore.setList(data?.list);
     })();
-  },[]) 
+  }, []);
 
   const {
     list,
@@ -56,23 +56,21 @@ export const CleanToDoList = () => {
       <Button onClick={() => saveList(list)}>Save list</Button>
 
       <List className={classes.root}>
-            {list?.map((item, index) => {      
-              return (
-                <ListItem key={index}>
-                  <ListItemIcon>
-                    <Checkbox
-                      onClick={() => setCheckedStatus(index, !item.isChecked)}
-                      checked={item.isChecked}
-                    />
-                  </ListItemIcon>
-                  <ListItemText primary={`Line item ${item.id + 1}`} />
-                  <ListItemSecondaryAction>
-                    <DeleteIcon onClick={() => removeItemFromList(index)}/>
-                  </ListItemSecondaryAction>
-                </ListItem>
-              );
-            })}
-          </List>
+        {list?.map((item, index) => (
+          <ListItem key={index}>
+            <ListItemIcon>
+              <Checkbox
+                onClick={() => setCheckedStatus(index, !item.isChecked)}
+                checked={item.isChecked}
+              />
+            </ListItemIcon>
+            <ListItemText primary={`Line item ${item.id + 1}`} />
+            <ListItemSecondaryAction>
+              <DeleteIcon onClick={() => removeItemFromList(index)} />
+            </ListItemSecondaryAction>
+          </ListItem>
+        ))}
+      </List>
     </>
   );
 }
