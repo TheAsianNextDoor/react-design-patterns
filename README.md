@@ -1,70 +1,95 @@
-# Getting Started with Create React App
+# React Architecture Patterns
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a simple to-do-list component that applies 4 different react architecture patterns. The patterns aim to decouple and apply the single-responsibility-principle.
 
-## Available Scripts
+## How To Start
+1.  `npm i`
+2.  `npm run dev`
 
-In the project directory, you can run:
+## Overview of Patterns
 
-### `npm start`
+What a pattern gives us
+- Separation of concerns
+  - Increases DRY code
+  - Easier to debug 
+- Decoupling
+  - Ability to switch technologies easier
+  - Refactoring/lifting features becomes easier
+- Testability
+  - Increase ability to mock 
+  - Smaller units of code to test
+- Collaboration
+  - Frontend Engineers and Designers
+  - Frontend and Backend Engineers
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Pattern complexity (high to low)
+1. Clean Architecture
+2. MVVM
+3. VVM
+4. Helper Functions
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Pattern coupling (high to low)
+1. VVM
+2. Helper Functions
+3. MVVM
+4. Clean Architecture
+### Clean Architecture by Uncle Bob
 
-### `npm test`
+Description 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Entities - pure business logic 
+  - No frameworks/annotations
+- Use Cases - a business action
+  - Utility libraries are welcome here
+  - Unaware of who triggers action, how to display UI, or specific data store
+  - Implements the Entities
+- Controllers/Adapters - Interface from Drivers to Use Cases
+  - N number of data providers
+  - Implements the Use Cases and provides data stores
+- FrameWorks/Drivers - External frameworks and services
+  - Pass services and data stores to the Controllers/Adapters
+  - Uses the interface provided by the Controllers/Adapters for user events
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+[Resource](https://www.freecodecamp.org/news/a-quick-introduction-to-clean-architecture-990c014448d2/)
+### MVVM (Model - View - View Model)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Description
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- View
+  - Only concerns itself with presentation
+  - Implements actions from View Model
+- View Model
+  - Coordinates interaction between View and Model
+  - Data conversion  (View specific) from the Model 
+  - Many to One relationship to model 
+- Model
+  - Data access and Services
+  - Represents the validation/shared business logic
+  - 
+[Resource](https://docs.microsoft.com/en-us/xamarin/xamarin-forms/enterprise-application-patterns/mvvm)
 
-### `npm run eject`
+### VVM (View - View Model)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Description
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Model View
+  - Combines the Model and View Model from MVVM
+  - Handles all business logic
+  - Performs data access (Local and External)
+  - Transforms data
+  - Manages validation
+- View
+  - Still just the presentation layer
+- Consumes actions/functions from Model View
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Helper File + View
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Description
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Helper File
+  - Pure functions 
+  - Implemented in the React view
+- View
+  - Handles state (local and external)
+  - Determines presentation
