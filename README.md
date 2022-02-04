@@ -1,4 +1,4 @@
-# React Architecture Patterns
+# React Design Patterns
 
 This is a simple to-do-list component that applies 4 different react architecture patterns. The patterns aim to decouple and apply the single-responsibility-principle.
 
