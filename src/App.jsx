@@ -9,7 +9,7 @@ import {
 import fetch from 'cross-fetch';
 import { CleanToDoList } from './components/clean-architecture/CleanToDoList.jsx';
 import { MVVMToDoList } from './components/mvvm/MVVMToDoList.jsx';
-import { MVVToDoList } from './components/mvv/MVVToDoList.jsx';
+import { VVMToDoList } from './components/vvm/VVMToDoList.jsx';
 import { HelperToDoList } from './components/helper-functions/HelperToDoList.jsx';
 
 const link = new HttpLink({
@@ -38,7 +38,7 @@ function App() {
       <ApolloProvider client={client}>
         <div>
           <h2>MVV</h2>
-          <MVVToDoList />
+          <VVMToDoList />
         </div>
 
         <div>

@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function MVVToDoList() {
+export function VVMToDoList() {
   const classes = useStyles();
   const {
     list,
