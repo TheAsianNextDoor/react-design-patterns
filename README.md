@@ -81,7 +81,7 @@ Description
   - Manages validation
 - View
   - Still just the presentation layer
-- Consumes actions/functions from Model View
+  - Consumes actions/functions from Model View
 
 ### Helper File + View
 
